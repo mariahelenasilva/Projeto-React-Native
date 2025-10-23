@@ -1,29 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, Image, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import ProductCarousel from '../components/ProductCarousel'; // ✅ Carrossel
+import ProductCarousel from '../components/ProductCarousel';
 
 export default function HomeScreen({ navigation }) {
   const [produtos, setProdutos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredProdutos, setFilteredProdutos] = useState([]);
+  const [categoriaAtiva, setCategoriaAtiva] = useState('todas');
 
-  // 🔹 Carrega apenas a categoria de perfumes (fragrances)
+  // 🔹 Busca todos os produtos das categorias desejadas
   useEffect(() => {
-    const fetchPerfumes = async () => {
+    const fetchProdutos = async () => {
       try {
-        const response = await fetch('https://dummyjson.com/products/category/fragrances');
-        const data = await response.json();
-        setProdutos(data.products);
-        setFilteredProdutos(data.products);
+        const urls = [
+          'https://dummyjson.com/products/category/mens-shirts',
+          'https://dummyjson.com/products/category/womens-dresses',
+          'https://dummyjson.com/products/category/mens-shoes',
+          'https://dummyjson.com/products/category/womens-shoes',
+          'https://dummyjson.com/products/category/fragrances',
+          'https://dummyjson.com/products/category/skincare',
+          'https://dummyjson.com/products/category/beauty',
+          'https://dummyjson.com/products/category/womens-bags',
+          'https://dummyjson.com/products/category/mens-watches'
+        ];
+
+        const responses = await Promise.all(urls.map(url => fetch(url)));
+        const data = await Promise.all(responses.map(res => res.json()));
+
+        const todosProdutos = data.flatMap(item => item.products);
+        
+        setProdutos(todosProdutos);
+        setFilteredProdutos(todosProdutos);
       } catch (error) {
-        console.error('Erro ao buscar perfumes:', error);
+        console.error('Erro ao buscar produtos:', error);
       }
     };
-    fetchPerfumes();
+    fetchProdutos();
   }, []);
 
-  // 🔹 Função de busca manual (clicando na lupa)
+  // 🔹 Função para filtrar por categoria
+  const handleCategorySelect = (categories) => {
+    if (categories === 'todas') {
+      setFilteredProdutos(produtos);
+      setCategoriaAtiva('todas');
+    } else {
+      const filtrados = produtos.filter((item) =>
+        categories.includes(item.category)
+      );
+      setFilteredProdutos(filtrados);
+      setCategoriaAtiva(categories[0]);
+    }
+  };
+
+  // 🔍 Função de busca manual
   const handleSearch = () => {
     if (searchTerm.trim() === '') {
       setFilteredProdutos(produtos);
@@ -37,17 +67,16 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* 🔸 Carrossel de perfumes */}
+      {/* 🔸 Carrossel de categorias */}
       <ProductCarousel
-        produtos={produtos}
-        onPress={(item) => navigation.navigate('Detalhes', { produto: item })}
+        onCategorySelect={handleCategorySelect}
       />
 
-      {/* 🔹 Barra de pesquisa com botão de lupa */}
+      {/* 🔹 Barra de pesquisa */}
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Pesquisar perfume..."
+          placeholder="Pesquisar produto..."
           placeholderTextColor="#999"
           value={searchTerm}
           onChangeText={setSearchTerm}
@@ -57,7 +86,17 @@ export default function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      {/* 🔹 Lista de perfumes */}
+      {/* 🔹 Indicador de categoria ativa */}
+      <View style={styles.categoriaInfo}>
+        <Text style={styles.categoriaText}>
+          {categoriaAtiva === 'todas' ? 'Todos os produtos' : `Categoria: ${categoriaAtiva}`}
+        </Text>
+        <Text style={styles.contadorText}>
+          {filteredProdutos.length} produtos encontrados
+        </Text>
+      </View>
+
+      {/* 🔹 Lista de produtos */}
       <FlatList
         data={filteredProdutos}
         keyExtractor={(item) => item.id.toString()}
@@ -69,6 +108,7 @@ export default function HomeScreen({ navigation }) {
             <Image source={{ uri: item.thumbnail }} style={styles.image} />
             <Text style={styles.nome}>{item.title}</Text>
             <Text style={styles.preco}>R$ {item.price}</Text>
+            <Text style={styles.categoria}>{item.category}</Text>
           </TouchableOpacity>
         )}
         numColumns={2}
@@ -105,6 +145,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 45,
   },
+  categoriaInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+    paddingHorizontal: 5,
+  },
+  categoriaText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  contadorText: {
+    fontSize: 14,
+    color: '#666',
+  },
   lista: {
     paddingBottom: 20,
   },
@@ -138,5 +194,11 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#E91E63',
     marginTop: 3,
+  },
+  categoria: {
+    fontSize: 12,
+    color: '#999',
+    marginTop: 2,
+    textTransform: 'capitalize',
   },
 });

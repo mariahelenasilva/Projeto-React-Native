@@ -1,23 +1,45 @@
-// components/ProductCarousel.js
 import React from 'react';
-import { View, Text, Image, FlatList, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Image, FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
 
-const { width } = Dimensions.get('window');
+export default function ProductCarousel({ produtos, onCategorySelect }) {
+  // 🔹 Categorias do carrossel
+  const categorias = [
+    {
+      id: 1,
+      nome: 'Roupas Femininas',
+      image: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?w=300',
+      categories: ['womens-dresses', 'womens-shoes', 'womens-bags']
+    },
+    {
+      id: 2,
+      nome: 'Roupas Masculinas',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300',
+      categories: ['mens-shirts', 'mens-shoes', 'mens-watches']
+    },
+    {
+      id: 3,
+      nome: 'Artigos de Beleza',
+      image: 'https://images.unsplash.com/photo-1526045405693-1d57e8fc7d7b?w=300',
+      categories: ['fragrances', 'skincare', 'beauty']
+    }
+  ];
 
-export default function ProductCarousel({ produtos, onPress }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.titulo}>Destaques</Text>
       <FlatList
-        data={produtos.slice(0, 10)} // mostra só os 10 primeiros produtos
-        keyExtractor={(item) => item.id.toString()}
+        data={categorias}
         horizontal
+        keyExtractor={(item) => item.id.toString()}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
-          <TouchableOpacity style={styles.card} onPress={() => onPress(item)}>
-            <Image source={{ uri: item.thumbnail }} style={styles.imagem} />
-            <Text style={styles.nome} numberOfLines={1}>{item.title}</Text>
-            <Text style={styles.preco}>R$ {item.price}</Text>
+          <TouchableOpacity 
+            style={styles.card}
+            onPress={() => onCategorySelect(item.categories)}
+          >
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <View style={styles.overlay}>
+              <Text style={styles.categoryName}>{item.nome}</Text>
+            </View>
           </TouchableOpacity>
         )}
       />
@@ -26,44 +48,34 @@ export default function ProductCarousel({ produtos, onPress }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  container: { 
     marginVertical: 10,
+    height: 150,
   },
-  titulo: {
-    fontSize: 18,
+  card: { 
+    marginRight: 15,
+    borderRadius: 12,
+    overflow: 'hidden',
+    position: 'relative',
+  },
+  image: { 
+    width: 200, 
+    height: 150, 
+    borderRadius: 12,
+  },
+  overlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+  },
+  categoryName: {
+    color: '#fff',
+    fontSize: 16,
     fontWeight: 'bold',
-    marginLeft: 10,
-    marginBottom: 5,
-    color: '#333',
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    marginHorizontal: 8,
-    width: width * 0.4,
-    shadowColor: '#000',
-    shadowOpacity: 0.2,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    elevation: 3,
-    padding: 10,
-    alignItems: 'center',
-  },
-  imagem: {
-    width: '100%',
-    height: 100,
-    borderRadius: 8,
-  },
-  nome: {
-    fontSize: 14,
-    fontWeight: '600',
-    marginTop: 5,
-    color: '#444',
-  },
-  preco: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: '#E91E63',
-    marginTop: 2,
+    textAlign: 'center',
   },
 });
