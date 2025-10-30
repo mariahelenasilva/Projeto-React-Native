@@ -13,7 +13,7 @@ export default function ProductCarousel({ produtos, onCategorySelect }) {
     {
       id: 2,
       nome: 'Roupas Masculinas',
-      image: 'https://img.lojasrenner.com.br/item/930346315/original/3.jpg',
+      image: 'https://plus.unsplash.com/premium_photo-1727942419945-1908baae3c8e?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bW9kZWxvJTIwbWFzY3VsaW5vfGVufDB8fDB8fHww&fm=jpg&q=60&w=3000',
       categories: ['mens-shirts', 'mens-shoes', 'mens-watches']
     },
     {
