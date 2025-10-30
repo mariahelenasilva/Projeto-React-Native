@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../Context/CartContext';
 
 export default function DetalhesScreen({ route, navigation }) {
@@ -8,14 +9,10 @@ export default function DetalhesScreen({ route, navigation }) {
 
   const handleAddToCart = () => {
     addToCart(produto);
-    Alert.alert(
-      'Produto Adicionado',
-      `${produto.title} foi adicionado ao carrinho!`,
-      [
-        { text: 'Continuar Comprando', style: 'cancel' },
-        { text: 'Ver Carrinho', onPress: () => navigation.navigate('Compra') }
-      ]
-    );
+    Alert.alert('Produto Adicionado', `${produto.title} foi adicionado ao carrinho!`, [
+      { text: 'Continuar Comprando', style: 'cancel' },
+      { text: 'Ver Carrinho', onPress: () => navigation.navigate('Compra') },
+    ]);
   };
 
   return (
@@ -29,11 +26,9 @@ export default function DetalhesScreen({ route, navigation }) {
           <Text style={styles.preco}>R$ {produto.price}</Text>
         </View>
 
-        <TouchableOpacity
-          style={styles.botaoCarrinho}
-          onPress={handleAddToCart}
-        >
-          <Text style={styles.textoBotaoCarrinho}>🛒 Adicionar ao Carrinho</Text>
+        <TouchableOpacity style={styles.botaoCarrinho} onPress={handleAddToCart} activeOpacity={0.8}>
+          <Ionicons name="bag-handle-outline" size={20} color="#fff" style={{ marginRight: 8 }} />
+          <Text style={styles.textoBotaoCarrinho}>Adicionar ao Carrinho</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -43,7 +38,7 @@ export default function DetalhesScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff0f6',
+    backgroundColor: '#FFF',
     paddingHorizontal: 20,
   },
   card: {
@@ -53,58 +48,59 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 8,
+    shadowOpacity: 0.07,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 3,
   },
   imagem: {
-    width: 250,
-    height: 250,
+    width: 260,
+    height: 260,
     borderRadius: 16,
     marginBottom: 20,
   },
   nome: {
-    fontSize: 26,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontWeight: '700',
     color: '#333',
     textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
   },
   descricao: {
-    fontSize: 16,
+    fontSize: 15,
     color: '#666',
     textAlign: 'center',
     lineHeight: 22,
     marginBottom: 20,
   },
   precoContainer: {
-    backgroundColor: '#ffe4f1',
+    backgroundColor: '#F8D7E0',
     paddingVertical: 10,
     paddingHorizontal: 30,
     borderRadius: 25,
-    marginBottom: 20,
+    marginBottom: 25,
   },
   preco: {
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#e91e63',
+    color: '#C4516B',
   },
   botaoCarrinho: {
-    backgroundColor: '#e91e63',
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 30,
-    shadowColor: '#e91e63',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
-    elevation: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#E48CA1',
+    paddingVertical: 14,
+    paddingHorizontal: 35,
+    borderRadius: 28,
+    shadowColor: '#E48CA1',
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+    elevation: 5,
   },
   textoBotaoCarrinho: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontSize: 17,
+    fontWeight: '600',
   },
 });

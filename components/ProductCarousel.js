@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Image, FlatList, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ProductCarousel({ produtos, onCategorySelect }) {
-  // 🔹 Categorias do carrossel
   const categorias = [
     {
       id: 1,
@@ -18,7 +18,7 @@ export default function ProductCarousel({ produtos, onCategorySelect }) {
     },
     {
       id: 3,
-      nome: 'Artigos de Beleza',
+      nome: 'Beleza & Cuidados',
       image: 'https://img.lojasrenner.com.br/item/930595362/original/6.jpg',
       categories: ['fragrances', 'skincare', 'beauty']
     }
@@ -32,12 +32,14 @@ export default function ProductCarousel({ produtos, onCategorySelect }) {
         keyExtractor={(item) => item.id.toString()}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item }) => (
-          <TouchableOpacity 
+          <TouchableOpacity
+            activeOpacity={0.85}
             style={styles.card}
             onPress={() => onCategorySelect(item.categories)}
           >
             <Image source={{ uri: item.image }} style={styles.image} />
             <View style={styles.overlay}>
+              <Ionicons name="pricetag-outline" size={18} color="#fff" style={{ marginRight: 5 }} />
               <Text style={styles.categoryName}>{item.nome}</Text>
             </View>
           </TouchableOpacity>
@@ -48,34 +50,41 @@ export default function ProductCarousel({ produtos, onCategorySelect }) {
 }
 
 const styles = StyleSheet.create({
-  container: { 
+  container: {
     marginVertical: 10,
+  },
+  card: {
+    width: 200,
     height: 150,
-  },
-  card: { 
     marginRight: 15,
-    borderRadius: 12,
+    borderRadius: 16,
     overflow: 'hidden',
-    position: 'relative',
+    backgroundColor: '#f7f7f7',
+    shadowColor: '#000',
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 6,
+    elevation: 3,
   },
-  image: { 
-    width: 200, 
-    height: 150, 
-    borderRadius: 12,
+  image: {
+    width: '100%',
+    height: '100%',
   },
   overlay: {
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.45)',
     paddingVertical: 8,
-    paddingHorizontal: 12,
   },
   categoryName: {
     color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: '600',
     textAlign: 'center',
   },
 });
