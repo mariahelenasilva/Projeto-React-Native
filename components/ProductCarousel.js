@@ -7,7 +7,7 @@ export default function ProductCarousel({ produtos, onCategorySelect }) {
     {
       id: 1,
       nome: 'Roupas Femininas',
-      image: 'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?w=300',
+      image: 'https://static.zara.net/assets/public/4e6a/176c/f0ba4ef9ad79/ae6693eece7b/03085796800-p/03085796800-p.jpg?ts=1761739446795&w=840',
       categories: ['womens-dresses', 'womens-shoes', 'womens-bags']
     },
     {
