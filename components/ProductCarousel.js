@@ -13,13 +13,13 @@ export default function ProductCarousel({ produtos, onCategorySelect }) {
     {
       id: 2,
       nome: 'Roupas Masculinas',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300',
+      image: 'https://img.lojasrenner.com.br/item/930346315/original/3.jpg',
       categories: ['mens-shirts', 'mens-shoes', 'mens-watches']
     },
     {
       id: 3,
       nome: 'Artigos de Beleza',
-      image: 'https://images.unsplash.com/photo-1526045405693-1d57e8fc7d7b?w=300',
+      image: 'https://img.lojasrenner.com.br/item/930595362/original/6.jpg',
       categories: ['fragrances', 'skincare', 'beauty']
     }
   ];
