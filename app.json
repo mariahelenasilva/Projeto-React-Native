@@ -2,7 +2,11 @@
   "expo": {
     "name": "projetoReactNative",
     "slug": "projetoReactNative",
-    "platforms": ["ios", "android", "web"],
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -24,8 +28,25 @@
       "edgeToEdgeEnabled": true
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "themeColor": "#007bff",
+      "backgroundColor": "#ffffff",
+      "manifest": {
+        "short_name": "Glamour",
+        "name": "Glamour Brunette",
+        "icons": [
+          {
+            "src": "./assets/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+          },
+          {
+            "src": "./assets/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+          }
+        ]
+      }
     }
   }
 }
-
