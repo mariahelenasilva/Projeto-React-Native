@@ -9,7 +9,6 @@ export default function HomeScreen({ navigation }) {
   const [filteredProdutos, setFilteredProdutos] = useState([]);
   const [categoriaAtiva, setCategoriaAtiva] = useState('todas');
 
-  // 🔹 Busca todos os produtos das categorias desejadas
   useEffect(() => {
     const fetchProdutos = async () => {
       try {
@@ -29,7 +28,6 @@ export default function HomeScreen({ navigation }) {
         const data = await Promise.all(responses.map(res => res.json()));
 
         const todosProdutos = data.flatMap(item => item.products);
-        
         setProdutos(todosProdutos);
         setFilteredProdutos(todosProdutos);
       } catch (error) {
@@ -39,7 +37,6 @@ export default function HomeScreen({ navigation }) {
     fetchProdutos();
   }, []);
 
-  // 🔹 Função para filtrar por categoria
   const handleCategorySelect = (categories) => {
     if (categories === 'todas') {
       setFilteredProdutos(produtos);
@@ -53,7 +50,6 @@ export default function HomeScreen({ navigation }) {
     }
   };
 
-  // 🔍 Função de busca manual
   const handleSearch = () => {
     if (searchTerm.trim() === '') {
       setFilteredProdutos(produtos);
@@ -68,16 +64,14 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       {/* 🔸 Carrossel de categorias */}
-      <ProductCarousel
-        onCategorySelect={handleCategorySelect}
-      />
+      <ProductCarousel onCategorySelect={handleCategorySelect} />
 
       {/* 🔹 Barra de pesquisa */}
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
           placeholder="Pesquisar produto..."
-          placeholderTextColor="#999"
+          placeholderTextColor="#aaa"
           value={searchTerm}
           onChangeText={setSearchTerm}
         />
@@ -89,7 +83,7 @@ export default function HomeScreen({ navigation }) {
       {/* 🔹 Indicador de categoria ativa */}
       <View style={styles.categoriaInfo}>
         <Text style={styles.categoriaText}>
-          {categoriaAtiva === 'todas' ? 'Todos os produtos' : `Categoria: ${categoriaAtiva}`}
+          {categoriaAtiva === 'todas' ? '🛍️ Todos os produtos' : `Categoria: ${categoriaAtiva}`}
         </Text>
         <Text style={styles.contadorText}>
           {filteredProdutos.length} produtos encontrados
@@ -113,6 +107,7 @@ export default function HomeScreen({ navigation }) {
         )}
         numColumns={2}
         contentContainerStyle={styles.lista}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );
@@ -121,45 +116,56 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#fff8fb',
     paddingHorizontal: 10,
     paddingTop: 10,
   },
   searchContainer: {
     flexDirection: 'row',
-    marginVertical: 10,
+    marginVertical: 12,
+    alignItems: 'center',
   },
   input: {
     flex: 1,
     backgroundColor: '#fff',
-    borderRadius: 8,
-    paddingHorizontal: 10,
+    borderRadius: 10,
+    paddingHorizontal: 14,
     fontSize: 16,
-    height: 40,
+    height: 45,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 1,
   },
   searchButton: {
-    backgroundColor: '#E91E63',
-    borderRadius: 8,
+    backgroundColor: '#e91e63',
+    borderRadius: 10,
     marginLeft: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 45,
+    width: 48,
+    height: 45,
+    shadowColor: '#e91e63',
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 3,
   },
   categoriaInfo: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
     paddingHorizontal: 5,
   },
   categoriaText: {
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: 'bold',
     color: '#333',
   },
   contadorText: {
     fontSize: 14,
-    color: '#666',
+    color: '#777',
   },
   lista: {
     paddingBottom: 20,
@@ -167,38 +173,41 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     backgroundColor: '#fff',
-    margin: 5,
-    borderRadius: 10,
+    margin: 6,
+    borderRadius: 12,
     padding: 10,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    shadowOffset: { width: 0, height: 1 },
-    elevation: 2,
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: '#f4d7e2',
   },
   image: {
     width: 120,
-    height: 100,
-    borderRadius: 8,
+    height: 110,
+    borderRadius: 10,
+    resizeMode: 'cover',
   },
   nome: {
     fontSize: 14,
     fontWeight: '600',
-    marginTop: 5,
+    marginTop: 8,
     textAlign: 'center',
-    color: '#444',
+    color: '#333',
   },
   preco: {
-    fontSize: 14,
+    fontSize: 15,
     fontWeight: 'bold',
-    color: '#E91E63',
-    marginTop: 3,
+    color: '#e91e63',
+    marginTop: 4,
   },
   categoria: {
     fontSize: 12,
     color: '#999',
-    marginTop: 2,
+    marginTop: 3,
     textTransform: 'capitalize',
   },
 });
