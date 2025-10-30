@@ -63,24 +63,32 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* 🔸 Carrossel de categorias */}
+
       <ProductCarousel onCategorySelect={handleCategorySelect} />
 
-      {/* 🔹 Barra de pesquisa */}
+
       <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Pesquisar produto..."
-          placeholderTextColor="#aaa"
-          value={searchTerm}
-          onChangeText={setSearchTerm}
-        />
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-          <Ionicons name="search" size={22} color="#fff" />
+
+        <View style={styles.searchBox}>
+          <Ionicons name="search-outline" size={20} color="#aaa" style={{ marginRight: 6 }} />
+          <TextInput
+            style={styles.input}
+            placeholder="Pesquisar produto..."
+            placeholderTextColor="#aaa"
+            value={searchTerm}
+            onChangeText={setSearchTerm}
+            onSubmitEditing={handleSearch}
+          />
+        </View>
+
+
+        <TouchableOpacity onPress={() => navigation.navigate('Compra')} style={styles.cartButton}>
+          <Ionicons name="cart-outline" size={24} color="#fff" />
         </TouchableOpacity>
       </View>
 
-      {/* 🔹 Indicador de categoria ativa */}
+
+
       <View style={styles.categoriaInfo}>
         <Text style={styles.categoriaText}>
           {categoriaAtiva === 'todas' ? '🛍️ Todos os produtos' : `Categoria: ${categoriaAtiva}`}
@@ -210,4 +218,53 @@ const styles = StyleSheet.create({
     marginTop: 3,
     textTransform: 'capitalize',
   },
+  headerIcons: {
+    position: 'absolute',
+    top: 55,
+    right: 20,
+    zIndex: 10,
+  },
+  searchContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 14,
+    paddingHorizontal: 6,
+  },
+
+  searchBox: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    height: 45,
+    shadowColor: '#000',
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 1,
+  },
+
+  input: {
+    flex: 1,
+    fontSize: 15,
+    color: '#333',
+  },
+
+  cartButton: {
+    marginLeft: 10,
+    backgroundColor: '#f8cdd4',
+    borderRadius: 12,
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 45,
+    width: 48,
+    shadowColor: '#f8cdd4',
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+
 });

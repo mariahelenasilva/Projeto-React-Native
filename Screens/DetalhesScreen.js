@@ -3,6 +3,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, ScrollView } fr
 import { Ionicons } from '@expo/vector-icons';
 import { useCart } from '../Context/CartContext';
 
+
 export default function DetalhesScreen({ route, navigation }) {
   const { produto } = route.params;
   const { addToCart } = useCart();
@@ -17,6 +18,11 @@ export default function DetalhesScreen({ route, navigation }) {
 
   return (
     <ScrollView style={styles.container}>
+      <View style={styles.headerRight}>
+        <TouchableOpacity onPress={() => navigation.navigate('Compra')} style={styles.cartButton}>
+          <Ionicons name="cart-outline" size={26} color="#f8cdd4" />
+        </TouchableOpacity>
+      </View>
       <View style={styles.card}>
         <Image source={{ uri: produto.thumbnail }} style={styles.imagem} />
         <Text style={styles.nome}>{produto.title}</Text>
@@ -32,6 +38,8 @@ export default function DetalhesScreen({ route, navigation }) {
         </TouchableOpacity>
       </View>
     </ScrollView>
+
+
   );
 }
 
@@ -103,4 +111,19 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '600',
   },
+  headerRight: {
+  position: 'absolute',
+  top: 40,
+  right: 20,
+  zIndex: 10,
+},
+cartButton: {
+  backgroundColor: '#fff',
+  borderRadius: 25,
+  padding: 8,
+  shadowColor: '#000',
+  shadowOpacity: 0.1,
+  shadowRadius: 4,
+  elevation: 3,
+},
 });
